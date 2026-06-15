@@ -103,8 +103,9 @@ h2{font-size:1.5rem;color:var(--blu-scuro);margin:6px 0}
 /* ===== VIDEO + TRASCRIZIONE ===== */
 .video-wrap{display:grid;grid-template-columns:1.15fr .85fr;gap:22px;align-items:start}
 .video-col{position:sticky;top:84px}
-.video-box{background:#000;border-radius:var(--radius);overflow:hidden;box-shadow:var(--ombra)}
+.video-box{background:#000;border-radius:var(--radius);overflow:hidden;box-shadow:var(--ombra);position:relative;aspect-ratio:16/9}
 .video-box video{width:100%;display:block;background:#000}
+.video-box #ytplayer,.video-box iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
 .chips{display:flex;flex-wrap:wrap;gap:7px;margin-top:14px}
 .chip{border:1.5px solid var(--blu-chiaro);background:#fff;color:var(--blu);font-weight:600;font-size:.82rem;padding:7px 13px;border-radius:99px;transition:.15s}
 .chip:hover{background:var(--blu-chiaro)}
@@ -128,9 +129,19 @@ h2{font-size:1.5rem;color:var(--blu-scuro);margin:6px 0}
   color:var(--testo);font-weight:500;box-shadow:var(--ombra-soft);
 }
 .par .tcode{font-size:.72rem;color:var(--azzurro);font-weight:700;display:block;margin-bottom:3px}
+.trascrizione.karaoke{display:flex;align-items:center;justify-content:center;min-height:220px;padding:24px 20px}
 .trascrizione.karaoke .par{display:none}
-.trascrizione.karaoke .par.attivo{display:block;opacity:1}
+.trascrizione.karaoke .par.attivo{
+  display:block;opacity:1;margin:0;max-width:640px;width:100%;
+  text-align:center;font-size:1.35rem;line-height:1.7;font-weight:600;
+  color:var(--blu-scuro);background:var(--blu-chiaro);
+  border-left:none;border-radius:16px;padding:22px 26px;
+  box-shadow:var(--ombra);animation:karaokeIn .35s ease;
+}
+.trascrizione.karaoke .par.attivo .tcode{font-size:.8rem;margin-bottom:8px;letter-spacing:.5px}
 .trascrizione.karaoke .cap-head{display:none}
+@keyframes karaokeIn{from{opacity:0;transform:scale(.97)}to{opacity:1;transform:none}}
+.trascrizione.karaoke .vuoto-karaoke{display:block;color:#7a8397;font-style:italic;text-align:center;font-size:1rem}
 
 /* ===== MINACCE ===== */
 .gruppo-attacchi{margin-bottom:30px}
@@ -154,6 +165,48 @@ h2{font-size:1.5rem;color:var(--blu-scuro);margin:6px 0}
 .stat .big{font-size:2.3rem;font-weight:800;color:var(--blu)}
 .stat .lbl{color:#5b6577;font-size:.92rem;margin-top:4px}
 .report-img{border-radius:var(--radius);box-shadow:var(--ombra);margin-top:6px}
+
+/* mappa interattiva */
+.mappa{position:relative;display:inline-block;width:100%;border-radius:var(--radius);overflow:visible;box-shadow:var(--ombra);background:#fff}
+.mappa img{width:100%;display:block;border-radius:var(--radius)}
+.hotspot-num{
+  position:absolute;transform:translate(-50%,-50%);
+  width:34px;height:34px;border-radius:50%;
+  background:var(--oro);color:#fff;border:3px solid #fff;
+  font-weight:800;font-size:1rem;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 2px 8px rgba(13,44,102,.45);z-index:3;
+  animation:pulsa 2s infinite;
+}
+.hotspot-num:hover,.hotspot-num.on{background:var(--blu);transform:translate(-50%,-50%) scale(1.15);animation:none}
+@keyframes pulsa{0%{box-shadow:0 0 0 0 rgba(184,134,11,.5)}70%{box-shadow:0 0 0 12px rgba(184,134,11,0)}100%{box-shadow:0 0 0 0 rgba(184,134,11,0)}}
+.mappa-popup{
+  position:absolute;z-index:5;width:min(300px,76vw);
+  background:#fff;border-radius:14px;box-shadow:var(--ombra);
+  border-top:4px solid var(--blu);padding:14px 16px;
+  display:none;animation:fade .25s ease;
+}
+.mappa-popup.aperto{display:block}
+.mappa-popup .pk-n{display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;border-radius:50%;background:var(--blu);color:#fff;font-weight:800;font-size:.8rem;margin-right:8px}
+.mappa-popup h4{display:inline;color:var(--blu-scuro);font-size:1.02rem}
+.mappa-popup .pk-dato{font-weight:700;color:var(--blu);margin:10px 0 6px;font-size:.95rem}
+.mappa-popup .pk-spiega{color:#3a4250;font-size:.92rem;margin-bottom:10px}
+.mappa-popup .pk-studente{background:#fbf3df;border-radius:10px;padding:9px 11px;font-size:.9rem;color:#5b4a13}
+.mappa-popup .pk-studente b{color:#8a6a00}
+.mappa-popup .pk-x{position:absolute;top:8px;right:10px;border:none;background:transparent;font-size:1.3rem;line-height:1;color:#9aa3b3;cursor:pointer}
+.mappa-popup.sx{transform:translate(0,12px)}
+.mappa-popup.dx{transform:translate(-100%,12px)}
+.mappa-popup.cc{transform:translate(-50%,12px)}
+.mappa-popup.su.sx{transform:translate(0,-100%) translateY(-14px)}
+.mappa-popup.su.dx{transform:translate(-100%,-100%) translateY(-14px)}
+.mappa-popup.su.cc{transform:translate(-50%,-100%) translateY(-14px)}
+
+/* card pratiche */
+.pratica-griglia{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px}
+.pratica-card{background:#fff;border-radius:var(--radius);padding:20px;box-shadow:var(--ombra-soft);border-top:5px solid var(--oro)}
+.pratica-card .ic-grande{margin-bottom:10px}
+.pratica-card h3{color:var(--blu-scuro);font-size:1.08rem;margin-bottom:6px}
+.pratica-card p{color:#5b6577;font-size:.94rem}
 .didascalia{font-size:.85rem;color:#7a8397;margin-top:10px;font-style:italic}
 
 /* ===== ATTIVITÀ / QUIZ ===== */
@@ -446,10 +499,7 @@ nav.menu button.btn-docenti:hover{background:#fbf3df}
   <div class="video-wrap">
     <div class="video-col">
       <div class="video-box">
-        <video id="video" controls preload="metadata" playsinline>
-          <source src="Difesa_della_Citt%C3%A0_Digitale.mp4" type="video/mp4">
-          Il tuo browser non supporta il video.
-        </video>
+        <div id="ytplayer"></div>
       </div>
       <div class="chips" id="chips"></div>
       <div class="karaoke-toggle">
@@ -688,8 +738,21 @@ nav.menu button.btn-docenti:hover{background:#fbf3df}
     <div class="stat"><div class="big">+75%</div><div class="lbl">l'IA accelera gli attacchi</div></div>
     <div class="stat"><div class="big">1 su 3</div><div class="lbl">incidenti "critici o estremi"</div></div>
   </div>
-  <img class="report-img" src="Rapporto_Attacchi_Informatici_2026.jpg" alt="Infografica Rapporto Clusit 2026">
+  <h2 style="margin-top:30px">La mappa della minaccia — esplorala tu</h2>
+  <p class="sottotitolo">Questa è l'infografica del Rapporto Clusit 2026. <strong>Tocca i punti numerati</strong>: per ognuno trovi cosa dice il dato e, soprattutto, <strong>cosa puoi imparare tu</strong>.</p>
+  <div class="mappa" id="mappaNumeri">
+    <img src="Rapporto_Attacchi_Informatici_2026.jpg" alt="Infografica Rapporto Clusit 2026">
+  </div>
   <p class="didascalia">Fonte: elaborazione dal Rapporto Clusit 2026. Numeri da leggere con curiosità, non con paura: servono a ricordarci perché la prudenza online conta.</p>
+
+  <h2 style="margin-top:34px">In pratica: cosa faccio io da oggi</h2>
+  <p class="sottotitolo">I numeri diventano utili quando cambiano i nostri comportamenti. Ecco le 4 mosse del difensore digitale.</p>
+  <div class="pratica-griglia">
+    <div class="pratica-card"><span class="ic-grande" style="background:#dbe9fb"><i data-lucide="smartphone" style="color:#123E90"></i></span><h3>Aggiorno sempre</h3><p>App e dispositivi aggiornati chiudono i "buchi": è la difesa contro il +65% di attacchi alle vulnerabilità.</p></div>
+    <div class="pratica-card"><span class="ic-grande" style="background:#d8f3e6"><i data-lucide="unlock" style="color:#0d7a52"></i></span><h3>Password forti + 2FA</h3><p>Password lunghe e diverse, più il codice sul telefono. Visto che l'89,3% degli attacchi punta ai soldi, i tuoi accessi valgono.</p></div>
+    <div class="pratica-card"><span class="ic-grande" style="background:#fdf0cf"><i data-lucide="help-circle" style="color:#8a6a00"></i></span><h3>Controllo prima di fidarmi</h3><p>L'IA rende gli inganni +75% più credibili. Mi fermo, controllo mittente e link, e nel dubbio chiedo a un adulto.</p></div>
+    <div class="pratica-card"><span class="ic-grande" style="background:#ece0fb"><i data-lucide="users" style="color:#6b3fa0"></i></span><h3>Proteggo anche gli altri</h3><p>Gli attacchi "multi-bersaglio" sono quasi raddoppiati: la mia prudenza protegge anche scuola, amici e famiglia.</p></div>
+  </div>
 
   <div class="scaffold" data-key="numeri-compito" style="margin-top:22px">
     <h4><i data-lucide="pencil-line"></i> Leggi i dati: tocca a te!</h4>
@@ -775,7 +838,7 @@ nav.menu button.btn-docenti:hover{background:#fbf3df}
         <h3><i data-lucide="lightbulb"></i> Risorse e note d'uso</h3>
         <ul>
           <li>Target: studenti di 11-12 anni. Gli alunni <b>non usano GenAI</b> in autonomia.</li>
-          <li>App in un unico file, funziona offline (servono solo i font e il video locale).</li>
+          <li>App in un unico file. Il video è incorporato da YouTube in modalità privacy (youtube-nocookie), senza video correlati di altri canali né annotazioni; serve quindi la connessione a internet per riprodurlo.</li>
           <li>Le risposte degli alunni restano sul dispositivo (localStorage), non vengono inviate.</li>
           <li>Fonte dati: Rapporto Clusit 2026; campagne Polizia Postale.</li>
         </ul>
@@ -848,7 +911,11 @@ const segmenti=[
  {c:"5 · Il Fattore Umano",t:546,e:560,x:"Un bel pensiero da tenere a mente la prossima volta che accendiamo lo smartphone. Grazie per averci seguito, continuate a essere curiosi, siate prudenti e... alla prossima!"}
 ];
 
-const video=document.getElementById('video');
+/* lettore YouTube (API IFrame) — embed pulito, senza video correlati di altri canali né annotazioni */
+let ytPlayer=null, ytReady=false;
+function seekAndPlay(t){
+  if(ytReady&&ytPlayer){ytPlayer.seekTo(t,true);ytPlayer.playVideo();}
+}
 const trBox=document.getElementById('trascrizione');
 const chipsBox=document.getElementById('chips');
 function fmt(s){const m=Math.floor(s/60),ss=Math.floor(s%60);return m+":"+String(ss).padStart(2,'0');}
@@ -860,7 +927,7 @@ segmenti.forEach((s,i)=>{
   }
   const p=document.createElement('div');p.className='par';p.dataset.i=i;
   p.innerHTML='<span class="tcode">'+fmt(s.t)+'</span>'+s.x;
-  p.addEventListener('click',()=>{video.currentTime=s.t+0.05;video.play();});
+  p.addEventListener('click',()=>seekAndPlay(s.t+0.05));
   trBox.appendChild(p);
 });
 
@@ -869,13 +936,14 @@ const capitoli=[...new Set(segmenti.map(s=>s.c))];
 capitoli.forEach(c=>{
   const primo=segmenti.find(s=>s.c===c);
   const b=document.createElement('button');b.className='chip';b.textContent=c;
-  b.addEventListener('click',()=>{video.currentTime=primo.t+0.05;video.play();});
+  b.addEventListener('click',()=>seekAndPlay(primo.t+0.05));
   chipsBox.appendChild(b);
 });
 
 let attivo=-1;
 function aggiorna(){
-  const t=video.currentTime;
+  if(!ytReady||!ytPlayer)return;
+  const t=ytPlayer.getCurrentTime();
   let idx=segmenti.findIndex(s=>t>=s.t&&t<s.e);
   if(idx===-1&&t>=segmenti[segmenti.length-1].e)idx=segmenti.length-1;
   if(idx!==attivo&&idx!==-1){
@@ -888,14 +956,45 @@ function aggiorna(){
     chipsBox.querySelectorAll('.chip').forEach(c=>c.classList.toggle('on',c.textContent===capCorr));
   }
 }
-video.addEventListener('timeupdate',aggiorna);
+setInterval(aggiorna,250);
+
+/* inizializzazione lettore YouTube */
+window.onYouTubeIframeAPIReady=function(){
+  ytPlayer=new YT.Player('ytplayer',{
+    videoId:'PWiWHf-iNh8',
+    host:'https://www.youtube-nocookie.com',
+    playerVars:{rel:0,modestbranding:1,iv_load_policy:3,playsinline:1,controls:1,color:'white'},
+    events:{onReady:function(){ytReady=true;}}
+  });
+};
+(function(){
+  const s=document.createElement('script');
+  s.src='https://www.youtube.com/iframe_api';
+  document.head.appendChild(s);
+})();
 
 /* karaoke */
 const kSwitch=document.getElementById('kSwitch');
+function attivaParagrafo(idx){
+  attivo=idx;
+  trBox.querySelectorAll('.par').forEach(p=>p.classList.toggle('attivo',+p.dataset.i===idx));
+  const capCorr=segmenti[idx].c;
+  chipsBox.querySelectorAll('.chip').forEach(c=>c.classList.toggle('on',c.textContent===capCorr));
+}
 kSwitch.addEventListener('click',()=>{
   const on=trBox.classList.toggle('karaoke');
   kSwitch.classList.toggle('on',on);
   kSwitch.setAttribute('aria-checked',on);
+  // all'attivazione, mostra subito il paragrafo in ascolto (o il primo se il video non è ancora partito)
+  if(on&&!trBox.querySelector('.par.attivo')){
+    let idx=0;
+    if(ytReady&&ytPlayer){
+      const t=ytPlayer.getCurrentTime();
+      const i=segmenti.findIndex(s=>t>=s.t&&t<s.e);
+      if(i!==-1)idx=i;
+    }
+    attivaParagrafo(idx);
+  }
 });
 
 /* ============ VERIFICA INVALSI ============ */
@@ -1144,6 +1243,48 @@ document.querySelectorAll('.meta-box textarea[data-mkey]').forEach(ta=>{
   modale.querySelectorAll('[data-chiudi-docenti]').forEach(b=>b.addEventListener('click',chiudi));
   modale.addEventListener('click',e=>{if(e.target===modale)chiudi();});
   document.addEventListener('keydown',e=>{if(e.key==='Escape')chiudi();});
+})();
+
+/* ============ MAPPA INTERATTIVA DEI NUMERI ============ */
+(function(){
+  const mappa=document.getElementById('mappaNumeri');
+  if(!mappa)return;
+  const punti=[
+    {x:50,y:18,t:"L'escalation: +48,7%",dato:"Gli attacchi gravi sono cresciuti di quasi metà in un solo anno (da 3.541 a 5.265).",spiega:"La linea sale sempre più ripida: ogni anno gli attacchi sono di più e più frequenti (oggi 439 al mese).",studente:"La sicurezza non è una cosa 'di una volta': devo stare attento ogni giorno, perché i pericoli crescono."},
+    {x:82,y:21,t:"Il cybercrime domina: 89,3%",dato:"Quasi 9 attacchi su 10 sono fatti per soldi.",spiega:"La maggior parte degli hacker non gioca: vuole guadagnare rubando dati, denaro o chiedendo un riscatto.",studente:"Capisco perché non devo mai dare dati personali o codici: per i criminali valgono soldi veri."},
+    {x:38,y:43,t:"1 incidente su 3 è critico",dato:"Un attacco su tre è 'critico' o 'estremo' e la gravità media è cresciuta del 9%.",spiega:"Non solo più attacchi: anche più gravi. Molti fanno danni seri a servizi importanti.",studente:"Anche un solo errore (un clic sbagliato) può avere conseguenze grandi: meglio prevenire."},
+    {x:12,y:80,t:"Industria e Sanità sotto assedio",dato:"Attacchi all'industria +79% e alla sanità +19%.",spiega:"Fabbriche e ospedali sono bersagli: se si fermano, si bloccano servizi utili a tutti.",studente:"Un attacco non colpisce solo un computer: può fermare un ospedale o una fabbrica vicino a me."},
+    {x:38,y:80,t:"L'IA: moltiplicatore di forza +75%",dato:"L'intelligenza artificiale aumenta del 75% l'abilità degli attacchi.",spiega:"L'IA aiuta i difensori, ma viene usata anche dai criminali per creare inganni più credibili e veloci.",studente:"Oggi un'email o un messaggio falso può sembrare perfetto: controllo sempre prima di fidarmi."},
+    {x:60,y:80,t:"Vulnerabilità: +65%",dato:"Lo sfruttamento delle 'falle' nei programmi è cresciuto del 65%: è la 2ª tecnica più usata.",spiega:"Un 'buco' in un'app non aggiornata è una porta aperta per gli hacker.",studente:"Conviene aggiornare app e dispositivi: gli aggiornamenti chiudono i buchi prima dei ladri."},
+    {x:86,y:82,t:"Top 3 settori colpiti 2025",dato:"Target Multipli 23,5% (+96%), Governo/Militare 12,2% (+37%), Sanità 10,6% (+19%).",spiega:"Gli attacchi 'multi-bersaglio', che colpiscono tanti enti insieme, sono quasi raddoppiati.",studente:"La sicurezza riguarda tutti insieme: una sola debolezza può colpire molte realtà collegate."}
+  ];
+  const pop=document.createElement('div');pop.className='mappa-popup';mappa.appendChild(pop);
+  let apertoIdx=-1;
+  function chiudiPop(){pop.classList.remove('aperto');mappa.querySelectorAll('.hotspot-num').forEach(h=>h.classList.remove('on'));apertoIdx=-1;}
+  function apriPop(i,dot){
+    const p=punti[i];
+    pop.className='mappa-popup '+(p.x<33?'sx':p.x>66?'dx':'cc')+(p.y>58?' su':'');
+    pop.style.left=p.x+'%';pop.style.top=p.y+'%';
+    pop.innerHTML='<button class="pk-x" aria-label="Chiudi">&times;</button>'+
+      '<span class="pk-n">'+(i+1)+'</span><h4>'+p.t+'</h4>'+
+      '<div class="pk-dato">'+p.dato+'</div>'+
+      '<div class="pk-spiega">'+p.spiega+'</div>'+
+      '<div class="pk-studente"><b>Per te:</b> '+p.studente+'</div>';
+    pop.querySelector('.pk-x').addEventListener('click',e=>{e.stopPropagation();chiudiPop();});
+    pop.classList.add('aperto');
+    mappa.querySelectorAll('.hotspot-num').forEach(h=>h.classList.remove('on'));
+    dot.classList.add('on');apertoIdx=i;
+  }
+  punti.forEach((p,i)=>{
+    const dot=document.createElement('button');
+    dot.className='hotspot-num';dot.style.left=p.x+'%';dot.style.top=p.y+'%';
+    dot.textContent=(i+1);dot.setAttribute('aria-label',p.t);
+    dot.addEventListener('click',e=>{e.stopPropagation();apertoIdx===i?chiudiPop():apriPop(i,dot);});
+    mappa.appendChild(dot);
+  });
+  pop.addEventListener('click',e=>e.stopPropagation());
+  document.addEventListener('click',()=>{if(apertoIdx!==-1)chiudiPop();});
+  document.addEventListener('keydown',e=>{if(e.key==='Escape'&&apertoIdx!==-1)chiudiPop();});
 })();
 
 /* ============ ICONE SVG INLINE (nessuna dipendenza esterna) ============ */
