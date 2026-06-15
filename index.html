@@ -171,15 +171,21 @@ h2{font-size:1.5rem;color:var(--blu-scuro);margin:6px 0}
 .mappa img{width:100%;display:block;border-radius:var(--radius)}
 .hotspot-num{
   position:absolute;transform:translate(-50%,-50%);
-  width:30px;height:30px;border-radius:50%;
-  background:transparent;color:var(--oro);border:3px solid var(--oro);
-  font-weight:800;font-size:.85rem;cursor:pointer;
+  width:62px;height:62px;border-radius:50%;
+  background:radial-gradient(circle,rgba(58,111,208,.28) 0%,rgba(18,62,144,.12) 55%,rgba(18,62,144,0) 72%);
+  color:#fff;border:4px solid var(--blu);
+  font-weight:800;font-size:1.25rem;cursor:pointer;
   display:flex;align-items:center;justify-content:center;
-  text-shadow:0 0 3px #fff,0 1px 2px #fff,0 0 3px #fff;z-index:3;
-  animation:pulsa 2s infinite;
+  text-shadow:0 1px 3px rgba(13,44,102,.9),0 0 4px rgba(13,44,102,.8);z-index:3;
+  animation:pulsa 1.8s ease-in-out infinite;
 }
-.hotspot-num:hover,.hotspot-num.on{background:rgba(18,62,144,.12);border-color:var(--blu);color:var(--blu);transform:translate(-50%,-50%) scale(1.15);animation:none}
-@keyframes pulsa{0%{box-shadow:0 0 0 0 rgba(184,134,11,.5)}70%{box-shadow:0 0 0 12px rgba(184,134,11,0)}100%{box-shadow:0 0 0 0 rgba(184,134,11,0)}}
+.hotspot-num:hover,.hotspot-num.on{
+  background:radial-gradient(circle,rgba(184,134,11,.4) 0%,rgba(184,134,11,.18) 55%,rgba(184,134,11,0) 72%);
+  border-color:var(--oro);transform:translate(-50%,-50%) scale(1.12);animation:none}
+@keyframes pulsa{
+  0%{box-shadow:0 0 0 0 rgba(58,111,208,.6),0 0 14px 2px rgba(58,111,208,.5)}
+  70%{box-shadow:0 0 0 18px rgba(58,111,208,0),0 0 26px 6px rgba(58,111,208,.15)}
+  100%{box-shadow:0 0 0 0 rgba(58,111,208,0),0 0 14px 2px rgba(58,111,208,.5)}}
 .mappa-popup{
   position:absolute;z-index:5;width:min(300px,76vw);
   background:#fff;border-radius:14px;box-shadow:var(--ombra);
