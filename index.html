@@ -171,14 +171,14 @@ h2{font-size:1.5rem;color:var(--blu-scuro);margin:6px 0}
 .mappa img{width:100%;display:block;border-radius:var(--radius)}
 .hotspot-num{
   position:absolute;transform:translate(-50%,-50%);
-  width:34px;height:34px;border-radius:50%;
-  background:var(--oro);color:#fff;border:3px solid #fff;
-  font-weight:800;font-size:1rem;cursor:pointer;
+  width:30px;height:30px;border-radius:50%;
+  background:transparent;color:var(--oro);border:3px solid var(--oro);
+  font-weight:800;font-size:.85rem;cursor:pointer;
   display:flex;align-items:center;justify-content:center;
-  box-shadow:0 2px 8px rgba(13,44,102,.45);z-index:3;
+  text-shadow:0 0 3px #fff,0 1px 2px #fff,0 0 3px #fff;z-index:3;
   animation:pulsa 2s infinite;
 }
-.hotspot-num:hover,.hotspot-num.on{background:var(--blu);transform:translate(-50%,-50%) scale(1.15);animation:none}
+.hotspot-num:hover,.hotspot-num.on{background:rgba(18,62,144,.12);border-color:var(--blu);color:var(--blu);transform:translate(-50%,-50%) scale(1.15);animation:none}
 @keyframes pulsa{0%{box-shadow:0 0 0 0 rgba(184,134,11,.5)}70%{box-shadow:0 0 0 12px rgba(184,134,11,0)}100%{box-shadow:0 0 0 0 rgba(184,134,11,0)}}
 .mappa-popup{
   position:absolute;z-index:5;width:min(300px,76vw);
